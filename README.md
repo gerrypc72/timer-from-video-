@@ -8,7 +8,7 @@ sorgente e arriva a `00:00:00:00`.
   sorgente (16:9 se è un audio).
 - FPS impostabili (default 25).
 - Codec: MP4 (H.264, default) o HAP (`.mov`).
-- Output `<nome>_timer.mp4/.mov` accanto al sorgente, oppure in una cartella a scelta.
+- Output `tmr_<nome>.mp4/.mov` accanto al sorgente, oppure in una cartella a scelta.
 - Le impostazioni sono salvate in `%APPDATA%\TimerFromVideo\settings.json`.
 
 L'exe include ffmpeg: non serve installare nulla.

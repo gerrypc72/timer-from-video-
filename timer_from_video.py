@@ -117,7 +117,7 @@ def out_path_for(src, s):
     ext = CODECS[s["codec"]]["ext"]
     src = os.path.abspath(src)
     folder = os.path.dirname(src) if s["same_dir"] or not s["out_dir"] else s["out_dir"]
-    name = os.path.splitext(os.path.basename(src))[0] + "_timer" + ext
+    name = "tmr_" + os.path.splitext(os.path.basename(src))[0] + ext
     return os.path.join(folder, name)
 
 
