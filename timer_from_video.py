@@ -20,6 +20,7 @@ except Exception:  # drag&drop non disponibile: resta il pulsante Sfoglia
     HAS_DND = False
 
 APP_NAME = "TimerFromVideo"
+VERSION = "1.3"  # aggiornare a ogni release (stesso numero del tag vX.Y)
 CODECS = {
     "MP4 (H.264)": {"ext": ".mp4", "args": ["-c:v", "libx264", "-preset", "veryfast",
                                            "-crf", "18", "-pix_fmt", "yuv420p",
@@ -179,7 +180,7 @@ def render(src, s, on_progress, proc_holder):
 class App:
     def __init__(self):
         self.root = TkinterDnD.Tk() if HAS_DND else tk.Tk()
-        self.root.title("Timer From Video")
+        self.root.title(f"Timer From Video v{VERSION}")
         self.root.geometry("520x470")
         self.root.minsize(480, 440)
         self.s = load_settings()
