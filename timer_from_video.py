@@ -189,11 +189,53 @@ class App:
         self._build()
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
+    def _theme(self):
+        r = self.root
+        BG, PANEL, FG, DIM, ACC = "#1e1e1e", "#2b2b2b", "#e6e6e6", "#8a8a8a", "#3d7eff"
+        self.colors = {"bg": BG, "panel": PANEL, "fg": FG}
+        r.configure(bg=BG)
+        st = ttk.Style(r)
+        st.theme_use("clam")
+        st.configure(".", background=BG, foreground=FG, fieldbackground=PANEL,
+                     bordercolor="#444", lightcolor=BG, darkcolor=BG,
+                     troughcolor=PANEL, focuscolor=BG)
+        st.configure("TLabelframe", background=BG, bordercolor="#444")
+        st.configure("TLabelframe.Label", background=BG, foreground=FG)
+        st.configure("TEntry", insertcolor=FG, fieldbackground=PANEL)
+        st.configure("TCombobox", fieldbackground=PANEL, background=PANEL,
+                     arrowcolor=FG, selectbackground=PANEL, selectforeground=FG)
+        st.configure("TButton", background="#3a3a3a", foreground=FG, padding=6)
+        st.configure("TCheckbutton", background=BG, foreground=FG, indicatorcolor=PANEL)
+        st.configure("Horizontal.TProgressbar", background=ACC, troughcolor=PANEL)
+        st.map("TButton", background=[("active", "#4a4a4a"), ("disabled", "#2a2a2a")],
+               foreground=[("disabled", DIM)])
+        st.map("TEntry", foreground=[("disabled", DIM)], fieldbackground=[("disabled", BG)])
+        st.map("TCombobox", fieldbackground=[("readonly", PANEL)],
+               foreground=[("readonly", FG)])
+        st.map("TCheckbutton", indicatorcolor=[("selected", ACC)],
+               background=[("active", BG)])
+        r.option_add("*TCombobox*Listbox.background", PANEL)
+        r.option_add("*TCombobox*Listbox.foreground", FG)
+        r.option_add("*TCombobox*Listbox.selectBackground", ACC)
+        # barra del titolo scura su Windows 10/11
+        try:
+            import ctypes
+            r.update()
+            hwnd = ctypes.windll.user32.GetParent(r.winfo_id())
+            val = ctypes.c_int(1)
+            for attr in (20, 19):
+                ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                    hwnd, attr, ctypes.byref(val), ctypes.sizeof(val))
+        except Exception:
+            pass
+
     def _build(self):
         r = self.root
+        self._theme()
         pad = {"padx": 12, "pady": 6}
         self.drop = tk.Label(r, text="Trascina qui un video o un audio\n(o clicca per sfogliare)",
-                             relief="groove", bd=2, height=6, bg="#f2f2f2", cursor="hand2")
+                             relief="groove", bd=2, height=6, bg=self.colors["panel"],
+                             fg=self.colors["fg"], cursor="hand2")
         self.drop.pack(fill="x", **pad)
         self.drop.bind("<Button-1>", lambda e: self.browse())
         if HAS_DND:
