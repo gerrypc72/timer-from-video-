@@ -17,9 +17,16 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Scarica ffmpeg full (con encoder HAP)
+        shell: bash
+        run: |
+          curl -sL -o ffmpeg.7z https://github.com/GyanD/codexffmpeg/releases/download/9.1/ffmpeg-9.1-full_build.7z
+          7z e ffmpeg.7z "*/bin/ffmpeg.exe" -o. -y
+          ./ffmpeg.exe -hide_banner -encoders | grep -E " hap | libx264 "
+          ./ffmpeg.exe -hide_banner -filters | grep drawtext
       - run: >
           pyinstaller --onefile --windowed --name TimerFromVideo
-          --collect-all tkinterdnd2 --collect-all imageio_ffmpeg
+          --collect-all tkinterdnd2 --add-binary "ffmpeg.exe;."
           timer_from_video.py
       - uses: actions/upload-artifact@v4
         with:

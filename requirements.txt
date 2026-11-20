@@ -1,3 +1,3 @@
 tkinterdnd2
-imageio-ffmpeg
+imageio-ffmpeg  # solo per sviluppo locale (l exe usa ffmpeg full scaricato dal workflow)
 pyinstaller

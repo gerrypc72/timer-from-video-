@@ -20,7 +20,7 @@ except Exception:  # drag&drop non disponibile: resta il pulsante Sfoglia
     HAS_DND = False
 
 APP_NAME = "TimerFromVideo"
-VERSION = "1.3"  # aggiornare a ogni release (stesso numero del tag vX.Y)
+VERSION = "1.4"  # aggiornare a ogni release (stesso numero del tag vX.Y)
 CODECS = {
     "MP4 (H.264)": {"ext": ".mp4", "args": ["-c:v", "libx264", "-preset", "veryfast",
                                            "-crf", "18", "-pix_fmt", "yuv420p",
@@ -60,6 +60,11 @@ def save_settings(s):
 
 # ---------------------------------------------------------------------- ffmpeg
 def ffmpeg_exe():
+    # exe compilato: ffmpeg.exe (build "full", con encoder HAP) e' incluso
+    base = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+    bundled = os.path.join(base, "ffmpeg.exe")
+    if os.path.exists(bundled):
+        return bundled
     try:
         import imageio_ffmpeg
         return imageio_ffmpeg.get_ffmpeg_exe()

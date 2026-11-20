@@ -11,7 +11,7 @@ sorgente e arriva a `00:00:00:00`.
 - Output `tmr_<nome>.mp4/.mov` accanto al sorgente, oppure in una cartella a scelta.
 - Le impostazioni sono salvate in `%APPDATA%\TimerFromVideo\settings.json`.
 
-L'exe include ffmpeg: non serve installare nulla.
+L'exe include ffmpeg (build full): non serve installare nulla.
 
 ## Build
 
@@ -19,6 +19,6 @@ L'exe viene compilato da GitHub Actions (artifact di ogni push; con un tag `v*`
 viene allegato anche a una Release). In locale:
 
 ```
-pip install -r requirements.txt
-pyinstaller --onefile --windowed --name TimerFromVideo --collect-all tkinterdnd2 --collect-all imageio_ffmpeg timer_from_video.py
+pip install -r requirements.txt  # + metti ffmpeg.exe (build full di gyan.dev) accanto a timer_from_video.py
+pyinstaller --onefile --windowed --name TimerFromVideo --collect-all tkinterdnd2 --add-binary "ffmpeg.exe;." timer_from_video.py
 ```
